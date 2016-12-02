@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context="com.derspektif.hibrit.cizimekrani.BoardActivity">
+
+    <!-- This is the view on which we will draw. -->
+    <view
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.derspektif.hibrit.cizimekrani.view.MainDrawingView"
+        android:id="@+id/single_touch_view"
+        android:layout_gravity="left|top"
+        android:background="#000" />
+
+    <Button
+        android:id="@+id/menuButton"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:background="@android:color/transparent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"/>
+
+    <Button
+        android:id="@+id/pickImageButton"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:background="@android:color/transparent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"/>
+
+    <ImageView
+        android:id="@+id/questionImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/app_margin"
+        android:adjustViewBounds="true"/>
+
+</RelativeLayout>
