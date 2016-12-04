@@ -6,14 +6,28 @@
     android:background="#fff"
     tools:context="com.derspektif.hibrit.cizimekrani.BoardActivity">
 
-    <com.derspektif.hibrit.cizimekrani.view.CanvasView
+<!--    <com.derspektif.hibrit.cizimekrani.view.CanvasView
         android:id="@+id/canvasView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#000" />
+        android:background="#000" />-->
+
+    <com.derspektif.hibrit.cizimekrani.view.ViewPort
+        android:id="@+id/viewPort"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000"/>
 
     <Button
-        android:id="@+id/menuButton"
+        android:id="@+id/clearButton"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:background="@android:color/transparent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"/>
+
+    <Button
+        android:id="@+id/pickImageButton"
         android:layout_width="@dimen/button_width"
         android:layout_height="@dimen/button_height"
         android:background="@android:color/transparent"
@@ -21,12 +35,42 @@
         android:layout_alignParentBottom="true"/>
 
     <Button
-        android:id="@+id/pickImageButton"
+        android:id="@+id/menuButton"
         android:layout_width="@dimen/button_width"
         android:layout_height="@dimen/button_height"
         android:background="@android:color/transparent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"/>
+
+    <LinearLayout
+        android:id="@+id/menuLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/menuButton"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/menuColorItem1"
+            style="@style/MenuItem"
+            android:tag="color1"
+            android:background="@drawable/menu_color_shape"/>
+
+        <Button
+            android:id="@+id/menuColorItem2"
+            style="@style/MenuItem"
+            android:tag="color2"
+            android:background="@drawable/menu_color_shape"/>
+
+        <Button
+            android:id="@+id/menuColorItem3"
+            style="@style/MenuItem"
+            android:tag="color3"
+            android:background="@drawable/menu_color_shape"/>
+
+
+    </LinearLayout>
 
 <!--    <com.derspektif.hibrit.cizimekrani.view.DrawableImageView
         android:id="@+id/questionImage"
@@ -35,11 +79,5 @@
         android:layout_margin="@dimen/app_margin"
         android:adjustViewBounds="true"/>-->
 
-
-    <com.derspektif.hibrit.cizimekrani.view.ViewPort
-        android:id="@+id/viewPort"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#000"/>
 
 </RelativeLayout>

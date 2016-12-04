@@ -5,13 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
-import com.derspektif.hibrit.cizimekrani.view.CanvasView;
-import com.derspektif.hibrit.cizimekrani.view.DrawableImageView;
 import com.derspektif.hibrit.cizimekrani.view.ViewPort;
 
 import java.io.FileNotFoundException;
@@ -26,17 +28,14 @@ public class BoardActivity extends AppCompatActivity {
     Context context = BoardActivity.this;
     private final int PICK_IMAGE = 1;
 
-    @Bind(R.id.canvasView)
-    CanvasView canvasView;
-    @Bind(R.id.viewPort)
-    ViewPort viewPort;
-//    @Bind(R.id.questionImage)
-//    DrawableImageView questionImage;
-    @Bind(R.id.menuButton)
-    Button menuButton;
-    @Bind(R.id.pickImageButton)
-    Button pickImageButton;
-
+    @Bind(R.id.viewPort) ViewPort viewPort;
+    @Bind(R.id.clearButton) Button clearButton;
+    @Bind(R.id.menuButton) Button menuButton;
+    @Bind(R.id.pickImageButton) Button pickImageButton;
+    @Bind(R.id.menuLayout) LinearLayout menuLayout;
+    @Bind(R.id.menuColorItem1) Button menuColorItem1;
+    @Bind(R.id.menuColorItem2) Button menuColorItem2;
+    @Bind(R.id.menuColorItem3) Button menuColorItem3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,27 +43,21 @@ public class BoardActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.board_layout);
         ButterKnife.bind(this);
+
+        GradientDrawable gradientDrawable;
+        gradientDrawable = (GradientDrawable) menuColorItem1.getBackground();
+        gradientDrawable.setColor(getResources().getColor(R.color.color1));
+        gradientDrawable = (GradientDrawable) menuColorItem2.getBackground();
+        gradientDrawable.setColor(getResources().getColor(R.color.color2));
+        gradientDrawable = (GradientDrawable) menuColorItem3.getBackground();
+        gradientDrawable.setColor(getResources().getColor(R.color.color3));
+
     }
-/*
-    @OnTouch(R.id.questionImage)
-    public boolean drawOnImage(View v, MotionEvent event){
-        DrawableImageView drawView = (DrawableImageView) v;
 
-        // set start coords
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            drawView.left = event.getX();
-            drawView.top = event.getY();
-            // set end coords
-        } else {
-            drawView.right = event.getX();
-            drawView.bottom = event.getY();
-        }
-        // draw
-        drawView.invalidate();
-        drawView.drawRect = true;
-
-        return true;
-    }*/
+    @OnClick(R.id.clearButton)
+    public void clearPage() {
+        viewPort.clearCanvas();
+    }
 
     @OnClick(R.id.pickImageButton)
     public void pickImage() {
@@ -77,7 +70,20 @@ public class BoardActivity extends AppCompatActivity {
     public void clearContent() {
 //        canvasView.clearCanvas();
         viewPort.setOnGestureMode(false);
+        menuLayout.setVisibility(View.VISIBLE);
     }
+
+    @OnClick({R.id.menuColorItem1, R.id.menuColorItem2, R.id.menuColorItem3})
+    public void changeColor(Button menuItem) {
+
+        String tagColor = (String) menuItem.getTag();
+        Log.d("menu_item", tagColor);
+        viewPort.changeDrawColor(getResources().getIdentifier(tagColor, "color", getPackageName()));
+
+        //if (menuItem.getId() == R.id.menuColorItem1) {
+        //}
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

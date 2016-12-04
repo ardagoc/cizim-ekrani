@@ -8,4 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MenuItem" parent="Base.Widget.AppCompat.Button">
+        <!-- Customize your theme here. -->
+        <item name="android:layout_width">@dimen/menu_item_size</item>
+        <item name="android:layout_height">@dimen/menu_item_size</item>
+        <item name="android:layout_marginRight">@dimen/app_margin</item>
+    </style>
+
 </resources>

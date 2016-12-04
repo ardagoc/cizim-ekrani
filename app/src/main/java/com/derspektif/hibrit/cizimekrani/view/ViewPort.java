@@ -1,7 +1,6 @@
 package com.derspektif.hibrit.cizimekrani.view;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -15,10 +14,11 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.derspektif.hibrit.cizimekrani.helper.gesturedetectors.MoveGestureDetector;
 import com.derspektif.hibrit.cizimekrani.helper.gesturedetectors.RotateGestureDetector;
+
+import java.util.ArrayList;
 
 
 /**
@@ -31,6 +31,8 @@ public class ViewPort extends ImageView {
     //    private Bitmap mBitmap;
     private Canvas mCanvas;
     private Path mPath;
+    private ArrayList<Path> paths;
+    private ArrayList<Path> undonePaths;
     Context context;
     private Paint mPaint;
     private float mX, mY;
@@ -48,6 +50,8 @@ public class ViewPort extends ImageView {
         this.context = context;
         // we set a new Path
         mPath = new Path();
+        paths = new ArrayList<Path>();
+        undonePaths = new ArrayList<Path>();
 
         // and we set a new Paint with the desired attributes
         mPaint = new Paint();
@@ -66,12 +70,17 @@ public class ViewPort extends ImageView {
     protected void onDraw(Canvas canvas) {
         if (layer != null)
             layer.draw(canvas);
-        if (!onGestureMode)
+        if (!onGestureMode) {
+            for (Path p : paths) {
+                canvas.drawPath(p, mPaint);
+            }
             canvas.drawPath(mPath, mPaint);
+        }
     }
 
     // when ACTION_DOWN start touch according to the x,y values
     private void startTouch(float x, float y) {
+        undonePaths.clear();
         mPath.moveTo(x, y);
         mX = x;
         mY = y;
@@ -91,6 +100,28 @@ public class ViewPort extends ImageView {
     // when ACTION_UP stop touch
     private void upTouch() {
         mPath.lineTo(mX, mY);
+        paths.add(mPath);
+        mPath = new Path();
+    }
+
+    public void onClickUndo() {
+        if (paths.size() > 0) {
+            undonePaths.add(paths.remove(paths.size() - 1));
+            invalidate();
+        } else {
+
+        }
+        //toast the user
+    }
+
+    public void onClickRedo() {
+        if (undonePaths.size() > 0) {
+            paths.add(undonePaths.remove(undonePaths.size() - 1));
+            invalidate();
+        } else {
+
+        }
+        //toast the user
     }
 
     public void clearCanvas() {
@@ -98,7 +129,7 @@ public class ViewPort extends ImageView {
         invalidate();
     }
 
-    public void setOnGestureMode(boolean value){
+    public void setOnGestureMode(boolean value) {
         onGestureMode = value;
     }
 
@@ -137,6 +168,10 @@ public class ViewPort extends ImageView {
             }
             return true;
         }
+    }
+
+    public void changeDrawColor(int colorId) {
+        mPaint.setColor(getResources().getColor(colorId));
     }
 
     class Layer {
